@@ -1,0 +1,28 @@
+<html>
+
+<body style="color: red; background-color: rgb(243, 168, 98);">
+
+    <!--
+    {% if ksywa %}
+        <h2>Twoja {{ ksywa }} </h2>
+    {% endif %}
+    -->
+    <div>
+        <form action="/formularz" method="post">
+            <input type="text" name="Zadanie" />
+            <input type="submit" value="Dodaj zadanie">
+        </form>
+    </div>
+    <div>
+        <form action="/formularz" method="post">
+            <input type="text" name="ID" />
+            <input type="submit" value="Usun zadanie">
+        </form>
+    </div>
+    <ul style="color: rgb(35, 160, 24)">
+        <!--<li>ziom: {{ ksywa }}</li>-->
+        <h1>{{ zm }}</h1>
+       
+    </ul>
+</body>
+</html>
