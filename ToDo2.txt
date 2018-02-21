@@ -1,10 +1,9 @@
+A
+B
 C
 D
 E
-Z
-Z
-X
-X
-Q
-Q
-Q
+F
+G
+G
+G

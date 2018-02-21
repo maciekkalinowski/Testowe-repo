@@ -48,7 +48,8 @@ wydruk = wydruk()
 
 @app.route("/")
 def index():
-    return render_template('home.html')
+    #return render_template('home.html')
+    return redirect(url_for('formularz'))
 
 
 
@@ -59,6 +60,7 @@ def formularz():
     
     Task = None
     ID = None
+    lista = odczyt()
     if request.method == 'POST':
         Task = request.form.get('Zadanie')
         ID = request.form.get('ID')
@@ -68,5 +70,6 @@ def formularz():
         if ID not in ['',None]:
             usun(ID)
     
+        return render_template('form.html',zm=wydruk)
     return render_template('form.html',zm=wydruk)
 
