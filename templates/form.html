@@ -19,18 +19,25 @@
             <input type="submit" value="Usun zadanie">
         </form>
     </div>
-    <Ul style="color: rgb(35, 160, 24)">
-        <!--<li>ziom: {{ ksywa }}</li>-->
+    <!-- <Ul style="color: rgb(35, 160, 24)">
+
         
        {% for index, element in zm %}
          <li>{{index}}  {{element}}</li>
        {% endfor %}
+    </ul> -->
+
+    <Ul style="color: rgb(53, 24, 160)">
+        <!--<li>ziom: {{ ksywa }}</li>-->
+        
+       {% for index, element in zm_db %}
+         <li>{{index}} {{element}}</li>
+       {% endfor %}
     </ul>
 
+
     <div>
-        <!-- <a href='/lista1'>lista1</a>
-        <a href='/lista2'>lista2</a>
-        <a href='/lista3'>lista3</a> -->
+        to nie działa narazie
         {% for x in ll %}
         <a href='{{x}}'>{{x}}</a>
         {% endfor %}
