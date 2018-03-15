@@ -4,17 +4,19 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
-db.create_all()
+
 
 class Zadanie(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     wpis = db.Column(db.String(100), nullable=False)
 
 
-#class listaZadan(db.Model):
 
 
 
+
+
+db.create_all()
 
 class ToDoDB:
 
@@ -103,10 +105,26 @@ class ToDoFile:
 
 
 
-@app.route("/")
-def index():
-    return render_template('form.html')
+@app.route("/",methods=['POST', 'GET'])
+def index():    
+    Task = None
+    ID = None
+    todo = ToDoDB(db)
+    todo.odczyt()
+    
+    if request.method == 'POST':
+        Task = request.form.get('Zadanie')
+        ID = request.form.get('ID')  
+        if Task :
+            todo.dodaj(Task)
+        if ID not in ['',None]:
+            todo.usun(int(ID))
 
+        todo.zapis()
+
+    todo.odczyt()
+    #return render_template('form.html',zm=enumerate(todo.show()),zm_db=todo.show_db().items(),ll=todo.get_all_files())
+    return render_template('form.html',zm_db=todo.show().items())
 
 
 
