@@ -4,12 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
+db.create_all()
 
-
-class Wiersz(db.Model):
+class Zadanie(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     wpis = db.Column(db.String(100), nullable=False)
 
+
+#class listaZadan(db.Model):
 
 
 
@@ -24,14 +26,14 @@ class ToDoDB:
 
    
     def dodaj(self, element):
-        wiersz= Wiersz(wpis=element)
-        self.db.session.add(wiersz)
+        zadanie= Zadanie(wpis=element)
+        self.db.session.add(zadanie)
         self.db.session.commit()
         
    
     def usun(self, index):
-        wiersz= Wiersz.query.get(index)
-        self.db.session.delete(wiersz)
+        zadanie= Zadanie.query.get(index)
+        self.db.session.delete(zadanie)
         self.db.session.commit()
 
 
@@ -40,7 +42,7 @@ class ToDoDB:
     
 
     def odczyt(self):     
-        self.list_db = {i.id: i.wpis for i in Wiersz.query.all()}
+        self.list_db = {i.id: i.wpis for i in Zadanie.query.all()}
 
 
     def show(self):
