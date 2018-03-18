@@ -19,28 +19,38 @@
             <input type="submit" value="Usun zadanie">
         </form>
     </div>
-    <!-- <Ul style="color: rgb(35, 160, 24)">
+    <div>
+        <form action="#" method="post">
+            <input type="text" name="nazwa_listy" />
+            <input type="submit" value="Stwórz nową listę zadań">
+        </form>
+    </div>
 
-        
-       {% for index, element in zm %}
-         <li>{{index}}  {{element}}</li>
-       {% endfor %}
-    </ul> -->
-
-    <Ul style="color: rgb(53, 24, 160)">
+    <ul style="color: rgb(53, 24, 160)">
         <!--<li>ziom: {{ ksywa }}</li>-->
         
-       {% for index, element in zm_db %}
-         <li>{{index}} {{element}}</li>
+       {% for element in zm_db %}
+         <li>{{element}}</li>
        {% endfor %}
     </ul>
+    
+    <!-- <ul style="color: rgb(24, 160, 42)">          
+           {% for element in zm2_db %}
+             <li>{{element}}</li>
+           {% endfor %}
+    </ul> -->
+    <h1>Wybierz Listę zadań do zrobienia</h1>
+    <form action="#" method="POST">
+            <select name="select">
+                    {% for element in zm2_db %}
+                    <option>{{element}}</option>
+                    {% endfor %}
+            </select>
+            <input type="submit" value="Wybierz listę">
+    </form>
+    {{zm3}}
 
 
-    <div>
-        to nie działa narazie
-        {% for x in ll %}
-        <a href='{{x}}'>{{x}}</a>
-        {% endfor %}
-    </div>
+
 </body>
 </html>

@@ -6,12 +6,22 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
 
+
+
+
+class ListaZadan(db.Model):
+    __tablename__='ListaZadan'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(100), nullable=False)
+    #tasks = db.relationship('Zadanie', backref='lista_zadan', lazy=True)
+    
+    
+
 class Zadanie(db.Model):
+    __tablename__='Zadanie'
     id = db.Column(db.Integer, primary_key = True)
     wpis = db.Column(db.String(100), nullable=False)
-
-
-
+    listazadan_id = db.Column(db.Integer, db.ForeignKey('ListaZadan.id'))
 
 
 
@@ -23,13 +33,20 @@ class ToDoDB:
     def __init__(self, db):
 
         self.list_db = []
+        self.list2_db =[]
         self.db = db
 
 
    
-    def dodaj(self, element):
-        zadanie= Zadanie(wpis=element)
+    def dodaj(self, element, listazadan_id):
+        zadanie= Zadanie(wpis=element, listazadan_id=listazadan_id)
         self.db.session.add(zadanie)
+        self.db.session.commit()
+
+
+    def nowaLista(self, element):
+        nazwaListy= ListaZadan(name=element)
+        self.db.session.add(nazwaListy)
         self.db.session.commit()
         
    
@@ -44,11 +61,17 @@ class ToDoDB:
     
 
     def odczyt(self):     
-        self.list_db = {i.id: i.wpis for i in Zadanie.query.all()}
+        self.list_db = [(i.id, i.wpis, i.listazadan_id) for i in Zadanie.query.all()]
+        self.list2_db = [(ii.id, ii.name) for ii in ListaZadan.query.all()]
+
 
 
     def show(self):
         return self.list_db
+    
+    def show2(self):
+        return self.list2_db
+
 
 #--------------------------------------   
 
@@ -109,46 +132,53 @@ class ToDoFile:
 def index():    
     Task = None
     ID = None
+    newListname = None
     todo = ToDoDB(db)
     todo.odczyt()
-    
+    list_select =''
     if request.method == 'POST':
         Task = request.form.get('Zadanie')
-        ID = request.form.get('ID')  
+        ID = request.form.get('ID')
+        newListname = request.form.get('nazwa_listy')  
+        list_select = list(request.form.get('select'))
+        list_select=int(list_select[1])
         if Task :
-            todo.dodaj(Task)
+            todo.dodaj(Task,1)
         if ID not in ['',None]:
             todo.usun(int(ID))
+        if newListname :
+            todo.nowaLista(newListname)
+        
 
         todo.zapis()
 
     todo.odczyt()
     #return render_template('form.html',zm=enumerate(todo.show()),zm_db=todo.show_db().items(),ll=todo.get_all_files())
-    return render_template('form.html',zm_db=todo.show().items())
+    return render_template('form.html',zm_db=todo.show(), zm2_db=todo.show2(),zm3=list_select)
 
 
 
 
 
 
-@app.route('/<nazwa_listy>',methods=['POST', 'GET'])
-def nazwa_listy(nazwa_listy):
+# @app.route('/<nazwa_listy>',methods=['POST', 'GET'])
+# def nazwa_listy(nazwa_listy):
     
-    Task = None
-    ID = None
-    todo = ToDoDB(db)
-    todo.odczyt()
+#     Task = None
+#     ID = None
+#     todo = ToDoDB(db)
+#     todo.odczyt()
     
-    if request.method == 'POST':
-        Task = request.form.get('Zadanie')
-        ID = request.form.get('ID')  
-        if Task :
-            todo.dodaj(Task)
-        if ID not in ['',None]:
-            todo.usun(int(ID))
+#     if request.method == 'POST':
+#         Task = request.form.get('Zadanie')
+#         ID = request.form.get('ID')  
+#         if Task :
+#             todo.dodaj(Task)
+#         if ID not in ['',None]:
+#             todo.usun(int(ID))
 
-        todo.zapis()
+#         todo.zapis()
 
-    todo.odczyt()
-    #return render_template('form.html',zm=enumerate(todo.show()),zm_db=todo.show_db().items(),ll=todo.get_all_files())
-    return render_template('form.html',zm_db=todo.show().items())
+#     todo.odczyt()
+#     #return render_template('form.html',zm=enumerate(todo.show()),zm_db=todo.show_db().items(),ll=todo.get_all_files())
+#     return render_template('form.html',zm_db=todo.show().items())
