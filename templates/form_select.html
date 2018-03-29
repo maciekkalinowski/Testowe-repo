@@ -1,0 +1,25 @@
+<html>
+<head title="Wybierz listę rzeczy do zrobienia">
+
+</head>
+<body>
+
+    <div>
+        <form action="#" method="post">
+
+            <select name="select">
+                {% for element in zm2_db %}
+                <option>{{element}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Wybierz listę">
+            <br>
+            <br>
+            <br>
+            <input type="text" name="nazwa_listy" />
+            <input type="submit" value="Stwórz nową listę zadań">
+        </form>
+    </div>
+
+</body>
+</html>

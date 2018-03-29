@@ -124,8 +124,10 @@ class ToDoFile:
 
 #--------------------------------------
 
-
-
+@app.route("/select",methods=['POST', 'GET'])
+def select():
+    print(request.form.get('select'))
+    return render_template('form_select.html',zm2_db=['lista1','lista2','lista3'])
 
 
 @app.route("/",methods=['POST', 'GET'])
@@ -133,17 +135,22 @@ def index():
     Task = None
     ID = None
     newListname = None
+    list_select = None
     todo = ToDoDB(db)
     todo.odczyt()
-    list_select =''
     if request.method == 'POST':
         Task = request.form.get('Zadanie')
         ID = request.form.get('ID')
         newListname = request.form.get('nazwa_listy')  
-        list_select = list(request.form.get('select'))
-        list_select=int(list_select[1])
+        list_select = request.form.get('select')
+        #nie wiem jak zrobić żeby obieky select przesyłał wartość
+        #inną niż None jeśli wciskamy inny guzik niż 'Wybierz listę'
+        if not list_select:
+            list_select='(0, )'
+        print(list_select)
+        list_select=list_select[1]
         if Task :
-            todo.dodaj(Task,1)
+            todo.dodaj(Task,list_select)
         if ID not in ['',None]:
             todo.usun(int(ID))
         if newListname :
@@ -154,7 +161,7 @@ def index():
 
     todo.odczyt()
     #return render_template('form.html',zm=enumerate(todo.show()),zm_db=todo.show_db().items(),ll=todo.get_all_files())
-    return render_template('form.html',zm_db=todo.show(), zm2_db=todo.show2(),zm3=list_select)
+    return render_template('form.html',zm_db=todo.show(), zm2_db=todo.show2(), zm3=list_select)
 
 
 

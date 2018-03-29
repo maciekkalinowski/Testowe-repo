@@ -23,6 +23,12 @@
         <form action="#" method="post">
             <input type="text" name="nazwa_listy" />
             <input type="submit" value="Stwórz nową listę zadań">
+            <select name="select">
+                {% for element in zm2_db %}
+                <option>{{element}}</option>
+                {% endfor %}
+        </select>
+        <input type="submit" value="Wybierz listę">
         </form>
     </div>
 
@@ -39,15 +45,7 @@
              <li>{{element}}</li>
            {% endfor %}
     </ul> -->
-    <h1>Wybierz Listę zadań do zrobienia</h1>
-    <form action="#" method="POST">
-            <select name="select">
-                    {% for element in zm2_db %}
-                    <option>{{element}}</option>
-                    {% endfor %}
-            </select>
-            <input type="submit" value="Wybierz listę">
-    </form>
+
     {{zm3}}
 
 
