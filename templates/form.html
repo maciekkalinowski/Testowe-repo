@@ -11,24 +11,28 @@
         <form action="#" method="post">
             <input type="text" name="Zadanie" />
             <input type="submit" value="Dodaj zadanie">
-        </form>
-    </div>
-    <div>
-        <form action="#" method="post">
+            <br>
+
+
+
+
             <input type="text" name="ID" />
             <input type="submit" value="Usun zadanie">
-        </form>
-    </div>
-    <div>
-        <form action="#" method="post">
+            <br>
+ 
+
+
+
             <input type="text" name="nazwa_listy" />
             <input type="submit" value="Stwórz nową listę zadań">
+            <br>
             <select name="select">
                 {% for element in zm2_db %}
                 <option>{{element}}</option>
                 {% endfor %}
-        </select>
-        <input type="submit" value="Wybierz listę">
+            </select>
+            <br>
+            <input type="submit" value="Wybierz listę">
         </form>
     </div>
 
